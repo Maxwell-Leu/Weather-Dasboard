@@ -3,7 +3,20 @@ var searchedCity = document.getElementById('searchedCity');
 var apiKey = '06aaafc7b6ed5e5c600f7d5e36d93055'
 
 function generate5Day(lat, lon){
-    
+    var weatherUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    fetch(weatherUrl)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            var today = data.list[0];
+            console.log(today);
+            var forecast = []
+            for(i = 1; i < 6; i++){
+                forecast.push(data.list[i]);
+            }
+            console.log(forecast)
+        })
 }
 
 function getLatLon(event){
