@@ -1,5 +1,9 @@
 var form = document.getElementById('form');
 var searchedCity = document.getElementById('searchedCity');
+var todayTemp = document.getElementById('todayTemp');
+var todayWind = document.getElementById('todayWind');
+var todayHumidity = document.getElementById('todayHumidity');
+var date = document.getElementById('cityDate');
 var apiKey = '06aaafc7b6ed5e5c600f7d5e36d93055'
 
 function generate5Day(lat, lon){
@@ -11,11 +15,19 @@ function generate5Day(lat, lon){
         .then(function(data){
             var today = data.list[0];
             console.log(today);
-            var forecast = []
+            date.textContent = searchedCity.value + " " + today.dt_text;
+            todayTemp.textContent = today.main.temp + " F°";
+            todayWind.textContent = today.wind.speed + " MPH"
+            todayHumidity.textContent = today.main.humidity + " %";
             for(i = 1; i < 6; i++){
-                forecast.push(data.list[i]);
+                var forecastFill = document.getElementById('day'+i);
+                forecastFill.children[0].textContent = data.list[i].dt_text;
+                forecastFill.children[1].children[0].textContent = data.list[i].main.temp + " F°";;
+                forecastFill.children[2].children[0].textContent = data.list[i].wind.speed + " MPH";
+                forecastFill.children[3].children[0].textContent = data.list[i].main.humidity + " %";
             }
-            console.log(forecast)
+            
+            console.log(searchedCity.value)
         })
 }
 
