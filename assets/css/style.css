@@ -1,0 +1,40 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main{
+    display: flex;
+    justify-content: space-between;
+}
+aside{
+    min-width: 20%;
+}
+
+#weather{
+    display: flex;
+    flex-direction: column;
+    min-width: 70%;
+}
+
+#today{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#forcast-title{
+    display: flex;
+    justify-content: center;
+}
+
+#forcast{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.day-style{
+    display: flex;
+}
+

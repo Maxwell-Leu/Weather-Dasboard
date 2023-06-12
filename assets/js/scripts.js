@@ -27,7 +27,7 @@ function generate5Day(lat, lon){
                 forecastFill.children[3].children[0].textContent = data.list[i].main.humidity + " %";
             }
             
-            console.log(searchedCity.value)
+            
         })
 }
 
@@ -54,4 +54,14 @@ function unixToDate(timeStamp){
     var date = new Date(millSec);
     return date.toLocaleDateString("en-US");
 }
+
+function saveSearch(cityName){
+    if (localStorage.length < 10){
+        var key = cityName;
+        localStorage.setItem(key,JSON.stringify(cityName));
+    }else{
+        localStorage.removeItem(localStorage.key(9));
+    }
+}
+
 form.addEventListener('submit', getLatLon);
