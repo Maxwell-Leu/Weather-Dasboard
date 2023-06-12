@@ -15,13 +15,13 @@ function generate5Day(lat, lon){
         .then(function(data){
             var today = data.list[0];
             console.log(today);
-            date.textContent = searchedCity.value + " " + today.dt_text;
+            date.textContent = searchedCity.value + " " + unixToDate(today.dt);
             todayTemp.textContent = today.main.temp + " F°";
             todayWind.textContent = today.wind.speed + " MPH"
             todayHumidity.textContent = today.main.humidity + " %";
             for(i = 1; i < 6; i++){
                 var forecastFill = document.getElementById('day'+i);
-                forecastFill.children[0].textContent = data.list[i].dt_text;
+                forecastFill.children[0].textContent = unixToDate(data.list[i].dt);
                 forecastFill.children[1].children[0].textContent = data.list[i].main.temp + " F°";;
                 forecastFill.children[2].children[0].textContent = data.list[i].wind.speed + " MPH";
                 forecastFill.children[3].children[0].textContent = data.list[i].main.humidity + " %";
@@ -49,4 +49,9 @@ function getLatLon(event){
     
 }
 
+function unixToDate(timeStamp){
+    var millSec = (timeStamp*1000);
+    var date = new Date(millSec);
+    return date.toLocaleDateString("en-US");
+}
 form.addEventListener('submit', getLatLon);
