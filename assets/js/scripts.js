@@ -5,6 +5,8 @@ var todayWind = document.getElementById('todayWind');
 var todayHumidity = document.getElementById('todayHumidity');
 var date = document.getElementById('cityDate');
 var apiKey = '06aaafc7b6ed5e5c600f7d5e36d93055'
+var fillHistory = document.getElementById('history');
+var weatherIcon = document.getElementById('weatherImage');
 
 function generate5Day(lat, lon){
     var weatherUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
@@ -16,18 +18,18 @@ function generate5Day(lat, lon){
             var today = data.list[0];
             console.log(today);
             date.textContent = searchedCity.value + " " + unixToDate(today.dt);
+            weatherIcon.setAttribute('src', `https://openweathermap.org/img/wn/${today.weather[0].icon}@2x.png`)
             todayTemp.textContent = today.main.temp + " F°";
             todayWind.textContent = today.wind.speed + " MPH"
             todayHumidity.textContent = today.main.humidity + " %";
             for(i = 1; i < 6; i++){
                 var forecastFill = document.getElementById('day'+i);
                 forecastFill.children[0].textContent = unixToDate(data.list[i].dt);
-                forecastFill.children[1].children[0].textContent = data.list[i].main.temp + " F°";;
-                forecastFill.children[2].children[0].textContent = data.list[i].wind.speed + " MPH";
-                forecastFill.children[3].children[0].textContent = data.list[i].main.humidity + " %";
+                forecastFill.children[1].setAttribute('src', `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`)
+                forecastFill.children[2].children[0].textContent = data.list[i].main.temp + " F°";;
+                forecastFill.children[3].children[0].textContent = data.list[i].wind.speed + " MPH";
+                forecastFill.children[4].children[0].textContent = data.list[i].main.humidity + " %";
             }
-            var cityName = searchedCity.value
-            localStorage.setItem(searchedCity.value, JSON.stringify(cityName));
         })
 }
 
@@ -44,6 +46,13 @@ function getLatLon(event){
             console.log(data);
             lat = data[0].lat;
             lon = data[0].lon;
+            var cityName = searchedCity.value
+            localStorage.setItem(searchedCity.value, JSON.stringify(cityName));
+            var button = document.createElement('button');
+            button.setAttribute('id', searchedCity.value);
+            button.setAttribute('onclick', "previousSearch(this.id)")
+            button.textContent = searchedCity.value;
+            fillHistory.appendChild(button);
             generate5Day(lat, lon);
         })
     
@@ -83,11 +92,9 @@ function saveSearch(cityName){
 }
 
 function loadLocalStorage(){
-    var fillHistory = document.getElementById('history');
     for(i = 0; i < localStorage.length; i++){
         var place = JSON.parse(localStorage.getItem(localStorage.key(i)));
         var button = document.createElement('button');
-        console.log(place);
         button.textContent = place;
         button.setAttribute('id',place);
         button.setAttribute('onclick', "previousSearch(this.id)")
