@@ -8,8 +8,15 @@ main{
     display: flex;
     justify-content: space-between;
 }
+
 aside{
     min-width: 20%;
+}
+
+#history{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0px;
 }
 
 #weather{
@@ -36,5 +43,6 @@ aside{
 
 .day-style{
     display: flex;
+    flex-direction: column;
 }
 

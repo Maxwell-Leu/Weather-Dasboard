@@ -26,8 +26,8 @@ function generate5Day(lat, lon){
                 forecastFill.children[2].children[0].textContent = data.list[i].wind.speed + " MPH";
                 forecastFill.children[3].children[0].textContent = data.list[i].main.humidity + " %";
             }
-            
-            
+            var cityName = searchedCity.value
+            localStorage.setItem(searchedCity.value, JSON.stringify(cityName));
         })
 }
 
@@ -49,6 +49,24 @@ function getLatLon(event){
     
 }
 
+function previousSearch(city){
+    var postiionUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
+    var lat;
+    var lon;
+    fetch(postiionUrl)
+        .then(function(response){
+           return response.json();
+        })
+        .then(function(data){
+            console.log(data);
+            lat = data[0].lat;
+            lon = data[0].lon;
+            searchedCity.value = city;
+            generate5Day(lat, lon);
+        })
+    
+}
+
 function unixToDate(timeStamp){
     var millSec = (timeStamp*1000);
     var date = new Date(millSec);
@@ -61,6 +79,19 @@ function saveSearch(cityName){
         localStorage.setItem(key,JSON.stringify(cityName));
     }else{
         localStorage.removeItem(localStorage.key(9));
+    }
+}
+
+function loadLocalStorage(){
+    var fillHistory = document.getElementById('history');
+    for(i = 0; i < localStorage.length; i++){
+        var place = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        var button = document.createElement('button');
+        console.log(place);
+        button.textContent = place;
+        button.setAttribute('id',place);
+        button.setAttribute('onclick', "previousSearch(this.id)")
+        fillHistory.appendChild(button);
     }
 }
 
