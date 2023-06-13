@@ -9,7 +9,7 @@ var fillHistory = document.getElementById('history');
 var weatherIcon = document.getElementById('weatherImage');
 
 function generate5Day(lat, lon){
-    var weatherUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+    var weatherUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
     fetch(weatherUrl)
         .then(function(response){
             return response.json();
@@ -35,7 +35,7 @@ function generate5Day(lat, lon){
 
 function getLatLon(event){
     event.preventDefault();
-    var postiionUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity.value}&limit=1&appid=${apiKey}`
+    var postiionUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity.value}&limit=1&appid=${apiKey}`
     var lat;
     var lon;
     fetch(postiionUrl)
@@ -59,7 +59,7 @@ function getLatLon(event){
 }
 
 function previousSearch(city){
-    var postiionUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
+    var postiionUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
     var lat;
     var lon;
     fetch(postiionUrl)
